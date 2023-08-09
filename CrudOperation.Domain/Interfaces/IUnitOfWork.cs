@@ -8,8 +8,8 @@ namespace CrudOperation.Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        public IDeveloperRepository? Developers { get; }
-        public IProjectRepository? Projects { get; }
-        public int Complete();
+        public IDeveloperRepository? Developer { get; }
+        public IProjectRepository? Project { get; }
+        public Task<int> SavaAsync();
     }
 }

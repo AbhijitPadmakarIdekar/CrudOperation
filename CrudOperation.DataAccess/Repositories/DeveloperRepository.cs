@@ -13,9 +13,5 @@ namespace CrudOperation.DataAccess.Repositories
         public DeveloperRepository(AppDbContext context) : base(context)
         {
         }
-        public IEnumerable<Developer> GetPopularDevelopers(int count)
-        {
-            return _context.Developers.OrderByDescending(d => d.Followers).Take(count).ToList();
-        }
     }
 }

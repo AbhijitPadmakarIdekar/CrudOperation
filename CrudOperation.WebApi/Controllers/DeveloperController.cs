@@ -2,38 +2,41 @@
 using CrudOperation.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/[controller]")]
-[ApiController]
-public class DeveloperController : ControllerBase
+namespace CrudOperation.WebApi.Controllers
 {
-    private readonly IUnitOfWork _unitOfWork;
-    public DeveloperController(IUnitOfWork unitOfWork)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DeveloperController : ControllerBase
     {
-        _unitOfWork = unitOfWork;
-    }
-
-    [HttpGet]
-    public IActionResult GetPopularDevelopers([FromQuery] int count)
-    {
-        var popularDevelopers = _unitOfWork.Developers.GetPopularDevelopers(count);
-        return Ok(popularDevelopers);
-    }
-
-    [HttpPost]
-    public IActionResult AddDeveloperAndProject()
-    {
-        var developer = new Developer
+        private readonly IUnitOfWork _unitOfWork;
+        public DeveloperController(IUnitOfWork unitOfWork)
         {
-            Followers = 35,
-            Name = "Aslam Shaikh"
-        };
-        var project = new Project
+            _unitOfWork = unitOfWork;
+        }
+
+        [HttpGet("GetAllDevelopers")]
+        public async Task<ActionResult> GetAllDevelopers()
         {
-            Name = "AslamNazeerShaikh"
-        };
-        _unitOfWork.Developers.Add(developer);
-        _unitOfWork.Projects.Add(project);
-        _unitOfWork.Complete();
-        return Ok();
+            var actorsFromRepo = await _unitOfWork.Developer?.GetAll();
+            return Ok(actorsFromRepo);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddDeveloperAndProject()
+        {
+            var developer = new Developer
+            {
+                Followers = 35,
+                Name = "Aslam Shaikh"
+            };
+            var project = new Project
+            {
+                Name = "AslamNazeerShaikh"
+            };
+            await _unitOfWork.Developer.Add(developer);
+            await _unitOfWork.Project?.Add(project);
+            await _unitOfWork.SavaAsync();
+            return Ok();
+        }
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudOperation.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230808223722_FirstMigration")]
+    [Migration("20230809084036_FirstMigration")]
     partial class FirstMigration
     {
         /// <inheritdoc />

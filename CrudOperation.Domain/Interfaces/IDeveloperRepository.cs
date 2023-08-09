@@ -9,6 +9,5 @@ namespace CrudOperation.Domain.Interfaces
 {
     public interface IDeveloperRepository : IGenericRepository<Developer>
     {
-        IEnumerable<Developer> GetPopularDevelopers(int count);
     }
 }

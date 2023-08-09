@@ -1,5 +1,6 @@
 ﻿using CrudOperation.DataAccess.Repositories;
 using CrudOperation.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,39 @@ namespace CrudOperation.DataAccess.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
+        private bool _disposed = false;
+
+        public IDeveloperRepository Developer { get; private set; }
+        public IProjectRepository Project { get; private set; }
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
-            Developers = new DeveloperRepository(_context);
-            Projects = new ProjectRepository(_context);
+            Developer = new DeveloperRepository(_context);
+            Project = new ProjectRepository(_context);
         }
-        public IDeveloperRepository Developers { get; private set; }
-        public IProjectRepository Projects { get; private set; }
-        public int Complete()
+
+        public async Task<int> SavaAsync()
         {
-            return _context.SaveChanges();
+            return await _context.SaveChangesAsync();
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Dispose();
+                }
+            }
+            _disposed = true;
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
