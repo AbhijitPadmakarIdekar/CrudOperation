@@ -9,15 +9,19 @@ namespace CrudOperation.WebApi.Controllers
     public class DeveloperController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-        public DeveloperController(IUnitOfWork unitOfWork)
+        private ILogger _logger;
+
+        public DeveloperController(IUnitOfWork unitOfWork, ILogger<DeveloperController> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         [HttpGet("GetAllDevelopers")]
         public async Task<ActionResult> GetAllDevelopers()
         {
             var actorsFromRepo = await _unitOfWork.Developer?.GetAll();
+            _logger.LogInformation("The GetAllDevelopers method called.");
             return Ok(actorsFromRepo);
         }
 
@@ -27,11 +31,11 @@ namespace CrudOperation.WebApi.Controllers
             var developer = new Developer
             {
                 Followers = 35,
-                Name = "Aslam Shaikh"
+                DeveloperName = "Aslam Shaikh"
             };
             var project = new Project
             {
-                Name = "AslamNazeerShaikh"
+                ProjectName = "AslamNazeerShaikh"
             };
             await _unitOfWork.Developer.Add(developer);
             await _unitOfWork.Project?.Add(project);

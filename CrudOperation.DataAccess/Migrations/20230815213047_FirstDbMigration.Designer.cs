@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CrudOperation.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230809084036_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20230815213047_FirstDbMigration")]
+    partial class FirstDbMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,12 +32,12 @@ namespace CrudOperation.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Followers")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("DeveloperName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Followers")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -52,7 +52,7 @@ namespace CrudOperation.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("ProjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

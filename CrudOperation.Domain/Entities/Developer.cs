@@ -9,7 +9,7 @@ namespace CrudOperation.Domain.Entities
     public class Developer
     {
         public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
+        public string DeveloperName { get; set; } = string.Empty;
         public int Followers { get; set; }
     }
 }
