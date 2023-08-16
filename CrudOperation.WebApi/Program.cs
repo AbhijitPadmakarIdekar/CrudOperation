@@ -26,7 +26,7 @@ namespace CrudOperation.WebApi
                 builder.Services.AddDbContext<AppDbContext>(options =>
                     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-                builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+                builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
                 var app = builder.Build();
